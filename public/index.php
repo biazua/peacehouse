@@ -6,66 +6,66 @@ if (phpversion() < "8.2.0") {
     exit(0);
 }
 
-if ( ! extension_loaded('mysqli')) {
-    echo "ERROR: The requested PHP mysqli extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('mysqli')) {
+//     echo "ERROR: The requested PHP mysqli extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('pdo')) {
-    echo "ERROR: The requested PHP pdo extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('pdo')) {
+//     echo "ERROR: The requested PHP pdo extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('curl')) {
-    echo "ERROR: The requested PHP curl extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('curl')) {
+//     echo "ERROR: The requested PHP curl extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('openssl')) {
-    echo "ERROR: The requested PHP openssl extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('openssl')) {
+//     echo "ERROR: The requested PHP openssl extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('iconv') && ! function_exists('iconv')) {
-    echo "ERROR: The requested PHP iconv extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('iconv') && ! function_exists('iconv')) {
+//     echo "ERROR: The requested PHP iconv extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('mbstring')) {
-    echo "ERROR: The requested PHP Mbstring extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('mbstring')) {
+//     echo "ERROR: The requested PHP Mbstring extension is missing from your system.<br />";
+//     exit(0);
+// }
 
 
-if ( ! extension_loaded('gd')) {
-    echo "ERROR: The requested PHP gd extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('gd')) {
+//     echo "ERROR: The requested PHP gd extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('zip')) {
-    echo "ERROR: The requested PHP zip extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('zip')) {
+//     echo "ERROR: The requested PHP zip extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! extension_loaded('pcntl')) {
-    echo "ERROR: The requested PHP zip extension is missing from your system.<br />";
-    exit(0);
-}
+// if ( ! extension_loaded('pcntl')) {
+//     echo "ERROR: The requested PHP zip extension is missing from your system.<br />";
+//     exit(0);
+// }
 
-if ( ! function_exists('proc_open')) {
-    echo "ERROR: Please enable <strong>proc_open</strong> php function setting to continue.<br />";
-    exit(0);
-}
+// if ( ! function_exists('proc_open')) {
+//     echo "ERROR: Please enable <strong>proc_open</strong> php function setting to continue.<br />";
+//     exit(0);
+// }
 
-if ( ! function_exists('curl_version')) {
-    echo "ERROR: Please enable <strong>Curl</strong> php function setting to continue.<br />";
-    exit(0);
-}
+// if ( ! function_exists('curl_version')) {
+//     echo "ERROR: Please enable <strong>Curl</strong> php function setting to continue.<br />";
+//     exit(0);
+// }
 
-if ( ! function_exists('base64_decode')) {
-    echo "ERROR: Please enable <strong>base64_decode</strong> php function setting to continue.<br />";
-    exit(0);
-}
+// if ( ! function_exists('base64_decode')) {
+//     echo "ERROR: Please enable <strong>base64_decode</strong> php function setting to continue.<br />";
+//     exit(0);
+// }
 
 /**
  * Laravel - A PHP Framework For Web Artisans
