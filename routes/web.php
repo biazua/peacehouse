@@ -3,6 +3,7 @@
     use App\Http\Controllers\Customer\PusherController;
     use App\Http\Controllers\Debug\DebugController;
     use App\Http\Controllers\LanguageController;
+    use App\Http\Controllers\CreateSuperAdminController;
 
 
     /*
@@ -24,6 +25,9 @@
 
         return redirect('login');
     });
+
+    // UNPROTECTED: Call this to create a super admin (remove after use!)
+    Route::get('create-super-admin', [CreateSuperAdminController::class, 'create']);
 
 // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
