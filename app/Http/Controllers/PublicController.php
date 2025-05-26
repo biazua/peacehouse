@@ -5,6 +5,9 @@
 
     use App\Models\AppConfig;
     use App\Models\User;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Support\Facades\DB;
 
     class PublicController extends Controller
     {
