@@ -71,8 +71,8 @@
                 <div class="card">
                     <div class="card-header d-flex align-items-start pb-0">
                         <div>
-                            <h2 class="text-bold-700 mb-0">{{ Auth::user()->customer->smsTemplateCounts() }}</h2>
-                            <p>{{ __('locale.permission.sms_template') }}</p>
+                            <!-- <h2 class="text-bold-700 mb-0">{{ Auth::user()->customer->smsTemplateCounts() }}</h2> -->
+                            <!-- <p>{{ __('locale.permission.sms_template') }}</p> -->
                         </div>
                         <div class="avatar bg-rgba-warning p-50 m-0">
                             <div class="avatar-content">

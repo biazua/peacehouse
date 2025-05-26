@@ -224,8 +224,8 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <h2 class="fw-bolder mb-0">{{ Auth::user()->customer->smsTemplateCounts() }}</h2>
-                            <p class="card-text">{{ str_plural(__('locale.permission.sms_template')) }}</p>
+                            <!-- <h2 class="fw-bolder mb-0">{{ Auth::user()->customer->smsTemplateCounts() }}</h2> -->
+                            <!-- <p class="card-text">{{ str_plural(__('locale.permission.sms_template')) }}</p> -->
                         </div>
                         <a href="{{ route('customer.templates.index') }}">
                             <div class="avatar bg-light-warning p-50 m-0">
