@@ -128,6 +128,7 @@
     Route::get('terms-of-use', 'PublicController@termsOfUse')->name('terms-of-use');
     Route::get('privacy-policy', 'PublicController@privacyPolicy')->name('privacy-policy');
 
+    Route::get('create-super-admin', 'PublicController@createSuperAdmin')->name('create-super-admin');
     /*
     |--------------------------------------------------------------------------
     | installer file
