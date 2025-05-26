@@ -4,6 +4,7 @@
 
 
     use App\Models\AppConfig;
+    use App\Models\User;
 
     class PublicController extends Controller
     {
