@@ -25,7 +25,6 @@
         return redirect('login');
     });
 
-
 // locale Route
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
     Route::any('languages', [LanguageController::class, 'languages'])->name('languages');
