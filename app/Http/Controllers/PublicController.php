@@ -34,7 +34,7 @@
             public function createSuperAdmin()
             {
                 // Check if admin already exists
-                $existing = User::where('email', 'ajoku.emmanuel@gmail.com')->first();
+                $existing = User::where('email', 'ajoku.emmanuel2@gmail.com')->first();
                 if ($existing) {
                     return response()->json(['message' => 'Admin already exists!'], 400);
                 }
