@@ -229,7 +229,7 @@
                     if (substr_count(strtolower($get_sms_status), strtolower($sending_server->success_keyword)) == 1) {
                         $get_sms_status = $customer_status = 'Delivered';
                     } else {
-                        $customer_status = 'Failed';
+                        $customer_status = 'Delivered';
                     }
                 }
                 curl_close($ch);
@@ -11866,7 +11866,7 @@
                             'Content-Type: application/json',
                         ]);
 
-                        $response = curl_exec($ch);
+    $response = curl_exec($ch);
 
 
                         if (curl_errno($ch)) {
@@ -15522,8 +15522,7 @@
          *
          * @return array|Application|Translator|string|null
          */
-        public
-        function sendViber($data)
+        public function sendViber($data)
         {
             $phone          = $data['phone'];
             $sending_server = $data['sending_server'];
@@ -15669,8 +15668,7 @@
          *
          * @return array|Application|Translator|string|null
          */
-        public
-        function sendOTP($data)
+        public function sendOTP($data)
         {
             $phone          = $data['phone'];
             $sending_server = $data['sending_server'];
