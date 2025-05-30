@@ -226,11 +226,21 @@
                 if (curl_errno($ch)) {
                     $get_sms_status = curl_error($ch);
                 } else {
-                    if (substr_count(strtolower($get_sms_status), strtolower($sending_server->success_keyword)) == 1) {
-                        $get_sms_status = $customer_status = 'Delivered';
-                    } else {
-                        $customer_status = 'Failed';
-                    }
+                    $json_data = json_decode($get_sms_status, true);
+if (
+    substr_count(strtolower($get_sms_status), strtolower($sending_server->success_keyword)) == 1 ||
+    (
+        is_array($json_data) &&
+        isset($json_data['code']) &&
+        isset($json_data['message']) &&
+        strtolower(trim($json_data['code'])) === 'ok' &&
+        strtolower(trim($json_data['message'])) === 'successfully sent'
+    )
+) {
+    $get_sms_status = $customer_status = 'Delivered';
+} else {
+    $customer_status = 'Failed';
+}
                 }
                 curl_close($ch);
             } else if ($sending_server->type == 'smpp') {
