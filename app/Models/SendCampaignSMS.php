@@ -11872,9 +11872,10 @@
         $get_sms_status  = curl_error($ch);
         $customer_status = 'Failed';
     } else {
-        $get_data = json_decode($response, true);
+        // Ensure $get_data is always an array
+        $get_data = is_array($response) ? $response : json_decode($response, true);
         // Debug: Log the decoded response (optional: to a file or error_log)
-        // error_log('SMS API RAW RESPONSE: ' . $response);
+        // error_log('SMS API RAW RESPONSE: ' . print_r($response, true));
         // error_log('SMS API DECODED: ' . print_r($get_data, true));
         // Robust custom check for API response: code 'ok' and message 'Successfully Sent'
         if (
