@@ -53,7 +53,7 @@
                 'Skipped' => 'Skipped',
                 'Rejected', 'Rejectd' => 'Rejected',
                 'Accepted', 'Acceptd' => 'Accepted',
-                default => 'Delivered', // Emmanuel CHnga here 
+                default => 'Failed',
             };
 
 
@@ -2101,7 +2101,7 @@
             $status = match ($status) {
                 '2' => 'Delivered',
                 '5' => 'Undelivered',
-                default => 'Delivered', // EMmanuel change here
+                default => 'Failed',
             };
 
             $this::updateDLR($message_id, $status);
