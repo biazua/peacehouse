@@ -11868,15 +11868,16 @@
 
                         $response = curl_exec($ch);
 
-
                         if (curl_errno($ch)) {
                             $get_sms_status  = curl_error($ch);
                             $customer_status = 'Rejected';
                         } else {
-
                             $get_data = json_decode($response, true);
-
-                            if (isset($get_data) && is_array($get_data) && array_key_exists('Status', $get_data)) {
+                            // Custom check for API response: code 'ok' and message 'Successfully Sent'
+                            if (isset($get_data) && is_array($get_data) && isset($get_data['code']) && isset($get_data['message']) && strtolower($get_data['code']) === 'ok' && strtolower($get_data['message']) === 'successfully sent') {
+                                $get_sms_status  = 'Delivered|' . ($get_data['message_id'] ?? $get_data['message_id_str'] ?? '');
+                                $customer_status = 'Delivered';
+                            } elseif (isset($get_data) && is_array($get_data) && array_key_exists('Status', $get_data)) {
                                 if ($get_data['Status'] == 'OK') {
                                     $get_sms_status = $customer_status = 'Delivered';
                                 } else {
@@ -11888,7 +11889,6 @@
                                 $customer_status = 'Rejected';
                             }
                         }
-
                         curl_close($ch);
                         break;
 
