@@ -11870,23 +11870,26 @@
 
                         if (curl_errno($ch)) {
                             $get_sms_status  = curl_error($ch);
-                            $customer_status = 'Rejected';
+                            $customer_status = 'Failed';
                         } else {
                             $get_data = json_decode($response, true);
                             // Custom check for API response: code 'ok' and message 'Successfully Sent'
-                            if (isset($get_data) && is_array($get_data) && isset($get_data['code']) && isset($get_data['message']) && strtolower($get_data['code']) === 'ok' && strtolower($get_data['message']) === 'successfully sent') {
+                            if (is_array($get_data) && isset($get_data['code']) && isset($get_data['message']) && strtolower($get_data['code']) === 'ok' && strtolower($get_data['message']) === 'successfully sent') {
                                 $get_sms_status  = 'Delivered|' . ($get_data['message_id'] ?? $get_data['message_id_str'] ?? '');
                                 $customer_status = 'Delivered';
-                            } elseif (isset($get_data) && is_array($get_data) && array_key_exists('Status', $get_data)) {
+                            } elseif (is_array($get_data) && array_key_exists('Status', $get_data)) {
                                 if ($get_data['Status'] == 'OK') {
                                     $get_sms_status = $customer_status = 'Delivered';
                                 } else {
                                     $get_sms_status  = $get_data['Status'];
                                     $customer_status = 'Rejected';
                                 }
+                            } elseif (is_array($get_data)) {
+                                $get_sms_status  = json_encode($get_data);
+                                $customer_status = 'Failed';
                             } else {
-                                $get_sms_status  = 'Provide empty response. Please contact with gateway provider.';
-                                $customer_status = 'Rejected';
+                                $get_sms_status  = is_string($response) ? $response : 'Unknown error';
+                                $customer_status = 'Failed';
                             }
                         }
                         curl_close($ch);
