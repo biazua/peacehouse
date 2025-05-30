@@ -11866,45 +11866,30 @@
                             'Content-Type: application/json',
                         ]);
 
-    $response = curl_exec($ch);
+                        $response = curl_exec($ch);
 
-    if (curl_errno($ch)) {
-        $get_sms_status  = curl_error($ch);
-        $customer_status = 'Failed';
-    } else {
-        // Ensure $get_data is always an array
-        $get_data = is_array($response) ? $response : json_decode($response, true);
-        // Debug: Log the decoded response (optional: to a file or error_log)
-        // error_log('SMS API RAW RESPONSE: ' . print_r($response, true));
-        // error_log('SMS API DECODED: ' . print_r($get_data, true));
-        // Robust custom check for API response: code 'ok' and message 'Successfully Sent'
-        if (
-            is_array($get_data)
-            && isset($get_data['code'])
-            && isset($get_data['message'])
-            && strtolower(trim($get_data['code'])) === 'ok'
-            && strtolower(trim($get_data['message'])) === 'successfully sent'
-        ) {
-            $msg_id = $get_data['message_id'] ?? $get_data['message_id_str'] ?? '';
-            $get_sms_status  = 'Delivered|' . $msg_id;
-            $customer_status = 'Delivered';
-        } elseif (is_array($get_data) && array_key_exists('Status', $get_data)) {
-            if ($get_data['Status'] == 'OK') {
-                $get_sms_status = $customer_status = 'Delivered';
-            } else {
-                $get_sms_status  = $get_data['Status'];
-                $customer_status = 'Rejected';
-            }
-        } elseif (is_array($get_data)) {
-            $get_sms_status  = json_encode($get_data);
-            $customer_status = 'Failed';
-        } else {
-            $get_sms_status  = is_string($response) ? $response : 'Unknown error';
-            $customer_status = 'Failed';
-        }
-    }
-    curl_close($ch);
-    break;
+
+                        if (curl_errno($ch)) {
+                            $get_sms_status  = curl_error($ch);
+                            $customer_status = 'Rejected';
+                        } else {
+
+                            $get_data = json_decode($response, true);
+
+                            if (isset($get_data) && is_array($get_data) && array_key_exists('Status', $get_data)) {
+                                if ($get_data['Status'] == 'OK') {
+                                    $get_sms_status = $customer_status = 'Delivered';
+                                } else {
+                                    $get_sms_status  = $get_data['Status'];
+                                    $customer_status = 'Rejected';
+                                }
+                            } else {
+                                $get_sms_status  = 'Provide empty response. Please contact with gateway provider.';
+                                $customer_status = 'Rejected';
+                            }
+                        }
+
+                        curl_close($ch);
                         break;
 
 
