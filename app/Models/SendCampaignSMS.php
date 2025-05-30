@@ -229,7 +229,7 @@
                     if (substr_count(strtolower($get_sms_status), strtolower($sending_server->success_keyword)) == 1) {
                         $get_sms_status = $customer_status = 'Delivered';
                     } else {
-                        $customer_status = 'Delivered';
+                        $customer_status = 'Failed';
                     }
                 }
                 curl_close($ch);
