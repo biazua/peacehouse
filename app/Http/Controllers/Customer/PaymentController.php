@@ -140,7 +140,7 @@
 
                                         if ($invoice) {
                                             $current                   = Carbon::now();
-                                            $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                            $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                             $senderid->status          = 'active';
                                             $senderid->payment_claimed = true;
                                             $senderid->save();
@@ -263,7 +263,7 @@
 
                                 if ($invoice) {
                                     $current                   = Carbon::now();
-                                    $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                    $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                     $senderid->status          = 'active';
                                     $senderid->payment_claimed = true;
                                     $senderid->save();
@@ -328,7 +328,7 @@
 
                                 if ($invoice) {
                                     $current                   = Carbon::now();
-                                    $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                    $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                     $senderid->status          = 'active';
                                     $senderid->payment_claimed = true;
                                     $senderid->save();
@@ -381,7 +381,7 @@
 
                     if ($invoice) {
                         $current                   = Carbon::now();
-                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                         $senderid->status          = 'active';
                         $senderid->payment_claimed = true;
                         $senderid->save();
@@ -432,7 +432,7 @@
 
                                     if ($invoice) {
                                         $current                   = Carbon::now();
-                                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                         $senderid->status          = 'active';
                                         $senderid->payment_claimed = true;
                                         $senderid->save();
@@ -498,7 +498,7 @@
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -574,7 +574,7 @@
 
                         if ($invoice) {
                             $current                   = Carbon::now();
-                            $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                            $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                             $senderid->status          = 'active';
                             $senderid->payment_claimed = true;
                             $senderid->save();
@@ -670,7 +670,7 @@ POSTXML;
 
                                     if ($invoice) {
                                         $current                   = Carbon::now();
-                                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                         $senderid->status          = 'active';
                                         $senderid->payment_claimed = true;
                                         $senderid->save();
@@ -739,7 +739,7 @@ POSTXML;
 
                                 if ($invoice) {
                                     $current                   = Carbon::now();
-                                    $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                    $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                     $senderid->status          = 'active';
                                     $senderid->payment_claimed = true;
                                     $senderid->save();
@@ -791,7 +791,7 @@ POSTXML;
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -924,7 +924,7 @@ POSTXML;
 
                                     if ($invoice) {
                                         $current                   = Carbon::now();
-                                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                         $senderid->status          = 'active';
                                         $senderid->payment_claimed = true;
                                         $senderid->save();
@@ -996,7 +996,7 @@ POSTXML;
 
                                 if ($invoice) {
                                     $current                   = Carbon::now();
-                                    $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                    $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                     $senderid->status          = 'active';
                                     $senderid->payment_claimed = true;
                                     $senderid->save();
@@ -1069,7 +1069,7 @@ POSTXML;
 
                                     if ($invoice) {
                                         $current                   = Carbon::now();
-                                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                         $senderid->status          = 'active';
                                         $senderid->payment_claimed = true;
                                         $senderid->save();
@@ -1167,7 +1167,7 @@ POSTXML;
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -1232,7 +1232,7 @@ POSTXML;
 
                     if ($invoice) {
                         $current                   = Carbon::now();
-                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                         $senderid->status          = 'active';
                         $senderid->payment_claimed = true;
                         $senderid->save();
@@ -1296,7 +1296,7 @@ POSTXML;
 
                                 if ($invoice) {
                                     $current                   = Carbon::now();
-                                    $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                    $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                     $senderid->status          = 'active';
                                     $senderid->payment_claimed = true;
                                     $senderid->save();
@@ -1383,7 +1383,7 @@ POSTXML;
 
                                     if ($invoice) {
                                         $current                   = Carbon::now();
-                                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                         $senderid->status          = 'active';
                                         $senderid->payment_claimed = true;
                                         $senderid->save();
@@ -3283,7 +3283,7 @@ POSTXML;
 
                         if ($invoice) {
                             $current                   = Carbon::now();
-                            $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                            $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                             $senderid->status          = 'active';
                             $senderid->payment_claimed = true;
                             $senderid->save();
@@ -3507,7 +3507,7 @@ POSTXML;
 
                         if ($invoice) {
                             $current                   = Carbon::now();
-                            $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                            $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                             $senderid->status          = 'active';
                             $senderid->payment_claimed = true;
                             $senderid->save();
@@ -3870,7 +3870,7 @@ POSTXML;
 
                         if ($invoice) {
                             $current                   = Carbon::now();
-                            $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                            $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                             $senderid->status          = 'active';
                             $senderid->payment_claimed = true;
                             $senderid->save();
@@ -4094,7 +4094,7 @@ POSTXML;
 
                                 if ($invoice) {
                                     $current                   = Carbon::now();
-                                    $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                    $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                     $senderid->status          = 'active';
                                     $senderid->payment_claimed = true;
                                     $senderid->save();
@@ -4290,7 +4290,7 @@ POSTXML;
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -4436,7 +4436,7 @@ POSTXML;
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -4728,7 +4728,7 @@ POSTXML;
 
                                     if ($invoice) {
                                         $current                   = Carbon::now();
-                                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                         $senderid->status          = 'active';
                                         $senderid->payment_claimed = true;
                                         $senderid->save();
@@ -10531,7 +10531,7 @@ POSTXML;
                         'frequency_amount' => $plan->getOption('sender_id_frequency_amount'),
                         'frequency_unit'   => $plan->getOption('sender_id_frequency_unit'),
                         'currency_id'      => $plan->currency->id,
-                        'validity_date'    => $current->add($plan->getOption('sender_id_frequency_unit'), $plan->getOption('sender_id_frequency_amount')),
+                        'validity_date'    => $current->add((int)$plan->getOption('sender_id_frequency_amount'), $plan->getOption('sender_id_frequency_unit')),
                         'payment_claimed'  => true,
                         'user_id'          => $user->id,
                     ]);
@@ -11382,7 +11382,7 @@ POSTXML;
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -11873,7 +11873,7 @@ POSTXML;
 
                             if ($invoice) {
                                 $current                   = Carbon::now();
-                                $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                                $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                                 $senderid->status          = 'active';
                                 $senderid->payment_claimed = true;
                                 $senderid->save();
@@ -11964,7 +11964,7 @@ POSTXML;
 
                     if ($invoice) {
                         $current                   = Carbon::now();
-                        $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                        $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                         $senderid->status          = 'active';
                         $senderid->payment_claimed = true;
                         $senderid->save();
@@ -12232,7 +12232,7 @@ POSTXML;
 
                         if ($invoice) {
                             $current                   = Carbon::now();
-                            $senderid->validity_date   = $current->add($senderid->frequency_unit, $senderid->frequency_amount);
+                            $senderid->validity_date   = $current->add((int)$senderid->frequency_amount, $senderid->frequency_unit);
                             $senderid->status          = 'active';
                             $senderid->payment_claimed = true;
                             $senderid->save();
