@@ -67,7 +67,7 @@
 
                     if ($subscription->getOption('subscription_warning') == 1 && ! $subscription->getOption('send_warning')) {
                         $check = Subscription::where('user_id', $user->id)
-                            ->whereRaw('date(current_period_ends_at) =?', Carbon::now()->addDays($subscription->end_period_last_days)->toDateString())
+                            ->whereRaw('date(current_period_ends_at) =?', Carbon::now()->addDays((int)$subscription->end_period_last_days)->toDateString())
                             ->first();
 
                         if ($check) {
