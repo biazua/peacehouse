@@ -160,121 +160,135 @@
          */
         public function postQuickSend(Campaigns $campaign, QuickSendRequest $request): RedirectResponse
         {
-            if (config('app.stage') == 'demo') {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => 'Sorry! This option is not available in demo mode',
-                ]);
-            }
-
-            $activeSubscription = Auth::user()->customer->activeSubscription();
-            if ($activeSubscription) {
-                $plan = Plan::where('status', true)->find($activeSubscription->plan_id);
-                if ( ! $plan) {
+            try {
+                if (config('app.stage') == 'demo') {
                     return redirect()->route('customer.sms.quick_send')->with([
                         'status'  => 'error',
-                        'message' => 'Purchased plan is not active. Please contact support team.',
+                        'message' => 'Sorry! This option is not available in demo mode',
                     ]);
                 }
-            }
 
-            if (config('app.trai_dlt') && $activeSubscription->plan->is_dlt && $request->input('dlt_template_id') == null) {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => 'DLT Template id is required',
-                ]);
-            }
-
-            if (config('app.trai_dlt') && $activeSubscription->plan->is_dlt && Auth::user()->dlt_entity_id == null) {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => 'The DLT Entity ID is mandatory. Kindly reach out to the system administrator for further assistance',
-                ]);
-            }
-
-            if (config('app.trai_dlt') && $activeSubscription->plan->is_dlt && Auth::user()->dlt_telemarketer_id == null) {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => 'The DLT Telemarketer ID is mandatory. Kindly reach out to the system administrator for further assistance',
-                ]);
-            }
-
-            $recipients = $this->getRecipients($request);
-
-            if ($recipients->count() < 1) {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => __('locale.campaigns.at_least_one_number'),
-                ]);
-            }
-
-            if ($recipients->count() > 100) {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => 'You cannot send more than 100 SMS in a single request.',
-                ]);
-            }
-
-            $sendData = $request->except('_token', 'recipients', 'delimiter');
-
-            $errors = [];
-
-            $sendingServers = CustomerBasedSendingServer::where('user_id', auth()->user()->id)->where('status', 1)->count();
-
-            if ($sendingServers && ! isset($request->sending_server)) {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => 'Please select your sending server',
-                ]);
-            }
-
-            $validateData = $this->campaigns->checkQuickSendValidation($sendData);
-
-            if ($validateData->getData()->status == 'error') {
-                return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'error',
-                    'message' => $validateData->getData()->message,
-                ]);
-            }
-
-            $sendData['sender_id'] = $validateData->getData()->sender_id;
-            $sendData['sms_type']  = $validateData->getData()->sms_type;
-            $sendData['user']      = User::find($validateData->getData()->user_id);
-
-            foreach ($recipients as $recipient) {
-                $recipient = str_replace(['(', ')', '+', '-', ' '], '', $recipient);
-
-                $phone = $this->getPhoneNumber($recipient, $request->input('country_code'));
-
-                if (isset($phone) && ! is_array($phone)) {
-                    $errors[] = $phone;
-                    continue;
+                $activeSubscription = Auth::user()->customer->activeSubscription();
+                if ($activeSubscription) {
+                    $plan = Plan::where('status', true)->find($activeSubscription->plan_id);
+                    if ( ! $plan) {
+                        return redirect()->route('customer.sms.quick_send')->with([
+                            'status'  => 'error',
+                            'message' => 'Purchased plan is not active. Please contact support team.',
+                        ]);
+                    }
                 }
 
-                $sendData['country_code'] = $phone['country_code'];
-                $sendData['recipient']    = $phone['recipient'];
-                $sendData['region_code']  = $phone['region_code'];
-
-                $data = $this->campaigns->quickSend($campaign, $sendData);
-
-                if ($data->getData()->status !== 'success') {
-                    $errors[] = $data->getData()->message;
+                if (config('app.trai_dlt') && $activeSubscription->plan->is_dlt && $request->input('dlt_template_id') == null) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => 'DLT Template id is required',
+                    ]);
                 }
-            }
 
-            if ( ! empty($errors)) {
-                $errorMessage = implode('<br>', $errors);
+                if (config('app.trai_dlt') && $activeSubscription->plan->is_dlt && Auth::user()->dlt_entity_id == null) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => 'The DLT Entity ID is mandatory. Kindly reach out to the system administrator for further assistance',
+                    ]);
+                }
+
+                if (config('app.trai_dlt') && $activeSubscription->plan->is_dlt && Auth::user()->dlt_telemarketer_id == null) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => 'The DLT Telemarketer ID is mandatory. Kindly reach out to the system administrator for further assistance',
+                    ]);
+                }
+
+                $recipients = $this->getRecipients($request);
+
+                if ($recipients->count() < 1) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => __('locale.campaigns.at_least_one_number'),
+                    ]);
+                }
+
+                if ($recipients->count() > 100) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => 'You cannot send more than 100 SMS in a single request.',
+                    ]);
+                }
+
+                $sendData = $request->except('_token', 'recipients', 'delimiter');
+
+                $errors = [];
+
+                $sendingServers = CustomerBasedSendingServer::where('user_id', auth()->user()->id)->where('status', 1)->count();
+
+                if ($sendingServers && ! isset($request->sending_server)) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => 'Please select your sending server',
+                    ]);
+                }
+
+                $validateData = $this->campaigns->checkQuickSendValidation($sendData);
+
+                if ($validateData->getData()->status == 'error') {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => $validateData->getData()->message,
+                    ]);
+                }
+
+                $sendData['sender_id'] = $validateData->getData()->sender_id;
+                $sendData['sms_type']  = $validateData->getData()->sms_type;
+                $sendData['user']      = User::find($validateData->getData()->user_id);
+
+                foreach ($recipients as $recipient) {
+                    try {
+                        $recipient = str_replace(['(', ')', '+', '-', ' '], '', $recipient);
+                        $phone = $this->getPhoneNumber($recipient, $request->input('country_code'));
+
+                        if (isset($phone) && ! is_array($phone)) {
+                            $errors[] = $phone;
+                            continue;
+                        }
+
+                        $sendData['phone'] = $phone['phone'];
+                        $sendData['country_code'] = $phone['country_code'];
+
+                        $campaign->sendQuickSMS($sendData);
+                    } catch (\Exception $e) {
+                        \Log::error('SMS Quick Send Error', [
+                            'recipient' => $recipient,
+                            'error' => $e->getMessage(),
+                            'trace' => $e->getTraceAsString()
+                        ]);
+                        $errors[] = "Failed to send SMS to {$recipient}: " . $e->getMessage();
+                    }
+                }
+
+                if (count($errors) > 0) {
+                    return redirect()->route('customer.sms.quick_send')->with([
+                        'status'  => 'error',
+                        'message' => implode('<br>', $errors),
+                    ]);
+                }
 
                 return redirect()->route('customer.sms.quick_send')->with([
-                    'status'  => 'warning',
-                    'message' => $errorMessage,
+                    'status'  => 'success',
+                    'message' => __('locale.campaigns.message_sent_successfully'),
+                ]);
+
+            } catch (\Exception $e) {
+                \Log::error('SMS Quick Send Fatal Error', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+
+                return redirect()->route('customer.sms.quick_send')->with([
+                    'status'  => 'error',
+                    'message' => 'An error occurred while sending the SMS. Please try again or contact support if the issue persists.',
                 ]);
             }
-
-            return redirect()->route('customer.reports.all')->with([
-                'status'  => 'success',
-                'message' => __('locale.campaigns.message_successfully_delivered'),
-            ]);
         }
 
         private function getRecipients($request)

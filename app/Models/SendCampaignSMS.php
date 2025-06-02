@@ -284,34 +284,58 @@ if (
                 }
 
                 try {
-
                     $systemType = $sending_server->c2 ?? 'WWW';
-
+                    
+                    // Enable debug mode
+                    $debug = true;
+                    
                     if ($sms_type == 'unicode') {
-                        $output = (new SmsBuilder($sending_server->api_link, $sending_server->port, $sending_server->username, $sending_server->password, $tags, $systemType))
+                        $output = (new SmsBuilder($sending_server->api_link, $sending_server->port, $sending_server->username, $sending_server->password, $tags, $systemType, 10000, $debug))
                             ->setSender($data['sender_id'], $source_ton)
                             ->setRecipient($phone, $destination_ton)
                             ->sendMessage($message, true);
                     } else {
-                        $output = (new SmsBuilder($sending_server->api_link, $sending_server->port, $sending_server->username, $sending_server->password, $tags, $systemType))
+                        $output = (new SmsBuilder($sending_server->api_link, $sending_server->port, $sending_server->username, $sending_server->password, $tags, $systemType, 10000, $debug))
                             ->setSender($data['sender_id'], $source_ton)
                             ->setRecipient($phone, $destination_ton)
                             ->sendMessage($message);
                     }
 
-                    if ($output || str_contains($output, '0x6') || str_contains($output, 'Bound State') || str_contains($output, 'Bind Failed') || str_contains($output, 'submit_sm')) {
+                    // Log the output for debugging
+                    \Log::info('SMPP Output:', ['output' => $output]);
+
+                    if ($output === false) {
+                        $get_sms_status = $customer_status = __('locale.labels.failed');
+                        \Log::error('SMPP Send Failed: No output returned');
+                    } else if (str_contains($output, '0x6') || str_contains($output, 'Bound State') || str_contains($output, 'submit_sm')) {
                         $get_sms_status = $customer_status = 'Delivered';
+                        \Log::info('SMPP Send Success');
+                    } else if (str_contains($output, 'Bind Failed')) {
+                        $get_sms_status = $customer_status = __('locale.labels.failed');
+                        \Log::error('SMPP Bind Failed', ['output' => $output]);
                     } else {
                         $get_sms_status = $customer_status = __('locale.labels.failed');
+                        \Log::error('SMPP Send Failed', ['output' => $output]);
                     }
                 } catch (Exception $e) {
-                    $get_sms_status  = $e->getMessage();
+                    $get_sms_status = $e->getMessage();
                     $customer_status = 'Failed';
+                    \Log::error('SMPP Exception', [
+                        'message' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
                 }
 
-                if (str_contains($get_sms_status, '0x9') || str_contains($get_sms_status, '0x6') || str_contains($get_sms_status, 'Bound State') || str_contains($get_sms_status, 'Bind Failed') || str_contains($get_sms_status, 'submit_sm')) {
+                if (str_contains($get_sms_status, '0x6') || str_contains($get_sms_status, 'Bound State') || str_contains($get_sms_status, 'submit_sm')) {
                     $get_sms_status = $customer_status = 'Delivered';
+                } else if (str_contains($get_sms_status, '0x9')) {
+                    // 0x9 typically indicates a temporary failure
+                    $get_sms_status = $customer_status = 'Temporary Failure';
+                } else if (str_contains($get_sms_status, 'Bind Failed')) {
+                    $get_sms_status = $customer_status = 'Failed';
                 }
+            } else {
+// ... existing code ...
             } else {
 
                 $auth_url    = $sending_server->auth_link;

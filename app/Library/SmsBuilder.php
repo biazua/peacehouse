@@ -122,19 +122,39 @@ class SmsBuilder
      */
     public function sendMessage(string $message, bool $unicode = false): bool|string
     {
-        $this->transport->open();
-        $this->smppClient->bindTransceiver($this->login, $this->password);
-
-        if ($unicode) {
-            // strongly recommend use SMPP::DATA_CODING_UCS2 as default encoding in project to prevent problems with non latin symbols
-            $output = $this->smppClient->sendSMS($this->from, $this->to, $message, $this->tags, SMPP::DATA_CODING_UCS2);
-        } else {
-            $output = $this->smppClient->sendSMS($this->from, $this->to, $message, $this->tags);
+        try {
+            $this->transport->open();
+            
+            if (!$this->transport->isOpen()) {
+                throw new Exception('Failed to open SMPP connection');
+            }
+            
+            $bindResult = $this->smppClient->bindTransceiver($this->login, $this->password);
+            
+            if (!$bindResult) {
+                throw new Exception('Failed to bind as transceiver');
+            }
+            
+            if ($unicode) {
+                // strongly recommend use SMPP::DATA_CODING_UCS2 as default encoding in project to prevent problems with non latin symbols
+                $output = $this->smppClient->sendSMS($this->from, $this->to, $message, $this->tags, SMPP::DATA_CODING_UCS2);
+            } else {
+                $output = $this->smppClient->sendSMS($this->from, $this->to, $message, $this->tags);
+            }
+            
+            if ($output === false) {
+                throw new Exception('Failed to send SMS');
+            }
+            
+            $this->smppClient->close();
+            
+            return $output;
+        } catch (Exception $e) {
+            if (isset($this->smppClient) && $this->transport->isOpen()) {
+                $this->smppClient->close();
+            }
+            throw $e;
         }
-
-        $this->smppClient->close();
-
-        return $output;
     }
 
 }
