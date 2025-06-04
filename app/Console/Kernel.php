@@ -20,6 +20,7 @@
     use App\Console\Commands\UpdateDemo;
     use App\Console\Commands\UpdateImartGroupDLR;
     use App\Console\Commands\VisionUpInboundMessage;
+    use App\Console\Commands\MTNZambiaTokenRefresh;
     use Illuminate\Console\Scheduling\Schedule;
     use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -49,6 +50,7 @@
             InitPlugin::class,
             CleanDatabase::class,
             DiafaanDLR::class,
+            MTNZambiaTokenRefresh::class,
         ];
 
         /**
@@ -82,6 +84,7 @@
                 $schedule->command('user:preferences')->daily();
                 $schedule->command('automation:run')->everyFiveMinutes();
                 $schedule->command('app:clean-database')->monthly();
+                $schedule->command('mtn:refresh-token')->everyFiveMinutes();
             }
         }
 
