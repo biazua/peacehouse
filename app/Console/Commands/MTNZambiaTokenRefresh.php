@@ -31,7 +31,7 @@ class MTNZambiaTokenRefresh extends Command
     {
         try {
             // Log ZAMBIAMTN sending server details
-            $this->logZambiaMTNServerDetails();
+            // $this->logZambiaMTNServerDetails();
 
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
