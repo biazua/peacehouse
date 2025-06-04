@@ -245,24 +245,41 @@ if (
                 curl_close($ch);
             } else if ($sending_server->type == 'smpp') {
 
-                $sender_id = $data['sender_id'];
-                $message   = $data['message'];
+                // $sender_id = $data['sender_id'];
+                // $message   = $data['message'];
+
+                // if ($sending_server->source_addr_ton != 5) {
+                //     $source_ton = $sending_server->source_addr_ton;
+                // } else if (ctype_digit($sender_id) && strlen($sender_id) <= 8) {
+                //     $source_ton = Smpp::TON_NETWORKSPECIFIC;
+                // } else if (ctype_digit($sender_id) && (strlen($sender_id) <= 15 && strlen($sender_id) >= 10)) {
+                //     $source_ton = Smpp::TON_INTERNATIONAL;
+                // } else {
+                //     $source_ton = Smpp::TON_ALPHANUMERIC;
+                // }
+
+                // if ($sending_server->dest_addr_ton != 1) {
+                //     $destination_ton = $sending_server->dest_addr_ton;
+                // } else {
+                //     $destination_ton = Smpp::TON_INTERNATIONAL;
+                // }
 
                 if ($sending_server->source_addr_ton != 5) {
                     $source_ton = $sending_server->source_addr_ton;
                 } else if (ctype_digit($sender_id) && strlen($sender_id) <= 8) {
-                    $source_ton = Smpp::TON_NETWORKSPECIFIC;
+                    $source_ton = 3; // Network Specific
                 } else if (ctype_digit($sender_id) && (strlen($sender_id) <= 15 && strlen($sender_id) >= 10)) {
-                    $source_ton = Smpp::TON_INTERNATIONAL;
+                    $source_ton = 1; // International
                 } else {
-                    $source_ton = Smpp::TON_ALPHANUMERIC;
+                    $source_ton = 5; // Alphanumeric
                 }
 
                 if ($sending_server->dest_addr_ton != 1) {
                     $destination_ton = $sending_server->dest_addr_ton;
                 } else {
-                    $destination_ton = Smpp::TON_INTERNATIONAL;
+                    $destination_ton = 1; // International
                 }
+
 
                 $tags = null;
                 if (config('app.trai_dlt') && isset($data['dlt_entity_id']) && isset($data['dlt_telemarketer_id']) && isset($data['dlt_template_id']) && $data['dlt_template_id'] != null) {
