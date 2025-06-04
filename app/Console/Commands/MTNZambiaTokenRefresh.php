@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\SendingServer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class MTNZambiaTokenRefresh extends Command
 {
@@ -28,6 +30,9 @@ class MTNZambiaTokenRefresh extends Command
     public function handle()
     {
         try {
+            // Log ZAMBIAMTN sending server details
+            $this->logZambiaMTNServerDetails();
+
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -47,6 +52,42 @@ class MTNZambiaTokenRefresh extends Command
         } catch (\Exception $e) {
             $this->error('Error refreshing MTN Zambia token: ' . $e->getMessage());
             Log::error('MTN Zambia Token Refresh Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Log details of the ZAMBIAMTN sending server
+     */
+    private function logZambiaMTNServerDetails()
+    {
+        try {
+            // Get all sending servers
+            $servers = DB::table('sending_servers')->get();
+            
+            $this->info('All Sending Servers:');
+            $this->info(json_encode($servers, JSON_PRETTY_PRINT));
+            
+            Log::info('All Sending Servers:', [
+                'servers' => $servers
+            ]);
+
+            // Also get the specific ZAMBIAMTN server if it exists
+            $zambiaServer = $servers->where('name', 'ZAMBIAMTN')->first();
+            
+            if ($zambiaServer) {
+                $this->info('ZAMBIAMTN Server Details:');
+                $this->info(json_encode($zambiaServer, JSON_PRETTY_PRINT));
+                
+                Log::info('ZAMBIAMTN Server Details:', [
+                    'server' => $zambiaServer
+                ]);
+            } else {
+                $this->warn('ZAMBIAMTN sending server not found');
+                Log::warning('ZAMBIAMTN sending server not found');
+            }
+        } catch (\Exception $e) {
+            $this->error('Error logging sending server details: ' . $e->getMessage());
+            Log::error('Error logging sending server details: ' . $e->getMessage());
         }
     }
 } 
