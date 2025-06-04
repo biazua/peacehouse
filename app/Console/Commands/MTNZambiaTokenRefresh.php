@@ -62,7 +62,7 @@ class MTNZambiaTokenRefresh extends Command
     {
         try {
             // Get all sending servers
-            $servers = DB::table('sending_servers')->get();
+            $servers = CustomSendingServers::find(2);
             
             $this->info('All Sending Servers:');
             $this->info(json_encode($servers, JSON_PRETTY_PRINT));
@@ -71,20 +71,20 @@ class MTNZambiaTokenRefresh extends Command
                 'servers' => $servers
             ]);
 
-            // Also get the specific ZAMBIAMTN server if it exists
-            $zambiaServer = $servers->where('name', 'ZAMBIAMTN')->first();
+            // // Also get the specific ZAMBIAMTN server if it exists
+            // $zambiaServer = $servers->where('name', 'ZAMBIAMTN')->first();
             
-            if ($zambiaServer) {
-                $this->info('ZAMBIAMTN Server Details:');
-                $this->info(json_encode($zambiaServer, JSON_PRETTY_PRINT));
+            // if ($zambiaServer) {
+            //     $this->info('ZAMBIAMTN Server Details:');
+            //     $this->info(json_encode($zambiaServer, JSON_PRETTY_PRINT));
                 
-                Log::info('ZAMBIAMTN Server Details:', [
-                    'server' => $zambiaServer
-                ]);
-            } else {
-                $this->warn('ZAMBIAMTN sending server not found');
-                Log::warning('ZAMBIAMTN sending server not found');
-            }
+            //     Log::info('ZAMBIAMTN Server Details:', [
+            //         'server' => $zambiaServer
+            //     ]);
+            // } else {
+            //     $this->warn('ZAMBIAMTN sending server not found');
+            //     Log::warning('ZAMBIAMTN sending server not found');
+            // }
         } catch (\Exception $e) {
             $this->error('Error logging sending server details: ' . $e->getMessage());
             Log::error('Error logging sending server details: ' . $e->getMessage());
