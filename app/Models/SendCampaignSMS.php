@@ -245,8 +245,8 @@ if (
                 curl_close($ch);
             } else if ($sending_server->type == 'smpp') {
 
-                // $sender_id = $data['sender_id'];
-                // $message   = $data['message'];
+                $sender_id = $data['sender_id'];
+                $message   = $data['message'];
 
                 // if ($sending_server->source_addr_ton != 5) {
                 //     $source_ton = $sending_server->source_addr_ton;
