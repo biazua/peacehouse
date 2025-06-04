@@ -49,6 +49,29 @@ class MTNZambiaTokenRefresh extends Command
                 'body' => $response->json()
             ]);
 
+            // Update the custom_sending_servers table with new tokens
+            if ($response->successful()) {
+                $responseData = $response->json();
+                
+                // Update the custom_sending_servers table
+                DB::table('custom_sending_servers')
+                    ->where('id', 2)
+                    ->update([
+                        'username_value' => $responseData['access_token'],
+                        'password_value' => $responseData['refresh_token'],
+                        'updated_at' => now()
+                    ]);
+
+                $this->info('Successfully updated tokens in custom_sending_servers table');
+                Log::info('Successfully updated tokens in custom_sending_servers table');
+            } else {
+                $this->error('Failed to get new tokens from MTN Zambia API');
+                Log::error('Failed to get new tokens from MTN Zambia API', [
+                    'status' => $response->status(),
+                    'body' => $response->json()
+                ]);
+            }
+
         } catch (\Exception $e) {
             $this->error('Error refreshing MTN Zambia token: ' . $e->getMessage());
             Log::error('MTN Zambia Token Refresh Error: ' . $e->getMessage());
