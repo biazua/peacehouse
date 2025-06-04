@@ -62,7 +62,7 @@ class MTNZambiaTokenRefresh extends Command
     {
         try {
             // Get all sending servers
-            $sending_servers = SendingServer::where('settings', 'MTNZAMBIA')->where('status', 1)->get();
+            $sending_servers = SendingServer::where('status', 1)->get();
             
             $this->info('All Sending Servers:');
             $this->info(json_encode($servers, JSON_PRETTY_PRINT));
