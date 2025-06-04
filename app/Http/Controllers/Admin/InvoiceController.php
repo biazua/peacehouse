@@ -449,7 +449,7 @@
                                     'frequency_amount' => $plan->getOption('sender_id_frequency_amount'),
                                     'frequency_unit'   => $plan->getOption('sender_id_frequency_unit'),
                                     'currency_id'      => $plan->currency->id,
-                                    'validity_date'    => $current->add($plan->getOption('sender_id_frequency_unit'), $plan->getOption('sender_id_frequency_amount')),
+                                    'validity_date'    => $current->add($plan->getOption('sender_id_frequency_unit'), (int)$plan->getOption('sender_id_frequency_amount')),
                                     'payment_claimed'  => true,
                                     'user_id'          => $user->id,
                                 ]);
