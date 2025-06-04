@@ -62,7 +62,7 @@ class MTNZambiaTokenRefresh extends Command
     {
         try {
             // Get all sending servers
-            $servers = DB::table('sending_servers')->get();
+            $server = SendingServer::where('uid', '683e2313dd6db')->first();
             
             $this->info('All Sending Servers:');
             $this->info(json_encode($servers, JSON_PRETTY_PRINT));
