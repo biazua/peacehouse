@@ -248,15 +248,15 @@ if (
                 $sender_id = $data['sender_id'];
                 $message   = $data['message'];
 
-                if ($sending_server->source_addr_ton != 5) {
-                    $source_ton = $sending_server->source_addr_ton;
-                } else if (ctype_digit($sender_id) && strlen($sender_id) <= 8) {
-                    $source_ton = Smpp::TON_NETWORKSPECIFIC;
-                } else if (ctype_digit($sender_id) && (strlen($sender_id) <= 15 && strlen($sender_id) >= 10)) {
-                    $source_ton = Smpp::TON_INTERNATIONAL;
-                } else {
-                    $source_ton = Smpp::TON_ALPHANUMERIC;
-                }
+                // if ($sending_server->source_addr_ton != 5) {
+                //     $source_ton = $sending_server->source_addr_ton;
+                // } else if (ctype_digit($sender_id) && strlen($sender_id) <= 8) {
+                //     $source_ton = Smpp::TON_NETWORKSPECIFIC;
+                // } else if (ctype_digit($sender_id) && (strlen($sender_id) <= 15 && strlen($sender_id) >= 10)) {
+                //     $source_ton = Smpp::TON_INTERNATIONAL;
+                // } else {
+                    // $source_ton = Smpp::TON_ALPHANUMERIC;
+                // }
 
                 if ($sending_server->dest_addr_ton != 1) {
                     $destination_ton = $sending_server->dest_addr_ton;
