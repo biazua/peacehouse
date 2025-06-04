@@ -54,16 +54,22 @@ class MTNZambiaTokenRefresh extends Command
                 $responseData = $response->json();
                 
                 // Update the custom_sending_servers table
-                DB::table('custom_sending_servers')
+                $updated = DB::table('custom_sending_servers')
                     ->where('id', 2)
+                    ->where('server_id', 5)
                     ->update([
                         'username_value' => $responseData['access_token'],
                         'password_value' => $responseData['refresh_token'],
                         'updated_at' => now()
                     ]);
 
-                $this->info('Successfully updated tokens in custom_sending_servers table');
-                Log::info('Successfully updated tokens in custom_sending_servers table');
+                if ($updated) {
+                    $this->info('Successfully updated tokens in custom_sending_servers table for server_id 5');
+                    Log::info('Successfully updated tokens in custom_sending_servers table for server_id 5');
+                } else {
+                    $this->warn('No matching record found in custom_sending_servers table with id=2 and server_id=5');
+                    Log::warning('No matching record found in custom_sending_servers table with id=2 and server_id=5');
+                }
             } else {
                 $this->error('Failed to get new tokens from MTN Zambia API');
                 Log::error('Failed to get new tokens from MTN Zambia API', [
