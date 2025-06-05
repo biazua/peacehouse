@@ -84,7 +84,10 @@
                 $schedule->command('user:preferences')->daily();
                 $schedule->command('automation:run')->everyFiveMinutes();
                 $schedule->command('app:clean-database')->monthly();
-                $schedule->command('mtn:refresh-token')->everyFiveMinutes();
+                $schedule->command('mtn:refresh-token')
+                        ->everyTenMinutes()
+                        ->withoutOverlapping()
+                        ->runInBackground();
             }
         }
 
